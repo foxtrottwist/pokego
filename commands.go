@@ -32,8 +32,13 @@ func commands() map[string]command {
 		},
 		"map": {
 			name:        "map",
-			description: "Displays the names of 20 location areas",
+			description: "Displays the names of the next 20 location areas",
 			run:         mapCommand,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays the names of the previous 20 location areas",
+			run:         mapbCommand,
 		},
 	}
 }
@@ -56,6 +61,23 @@ func helpCommand(*config) error {
 
 func mapCommand(c *config) error {
 	la, err := fetch.LocationAreas(c.Next)
+	if err != nil {
+		return err
+	}
+
+	c.Next = la.Next
+	c.Previous = la.Previous
+
+	for _, area := range la.Results {
+		fmt.Println(area.Name)
+	}
+
+	fmt.Println()
+	return nil
+}
+
+func mapbCommand(c *config) error {
+	la, err := fetch.LocationAreas(c.Previous)
 	if err != nil {
 		return err
 	}

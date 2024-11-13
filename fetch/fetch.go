@@ -13,7 +13,6 @@ const (
 
 func LocationAreas(url string) (locationAreas, error) {
 	locationAreaUrl := LOCATION_AREA_URL
-
 	if url != "" {
 		locationAreaUrl = url
 	}
