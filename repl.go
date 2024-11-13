@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/foxtrottwist/pokego/fetch"
+	"github.com/foxtrottwist/pokego/client"
 )
 
 const PROMPT = "Pokédex > "
@@ -15,7 +15,7 @@ const PROMPT = "Pokédex > "
 type config struct {
 	next     *string
 	previous *string
-	client   fetch.Client
+	client   client.Client
 }
 
 func start() {
@@ -23,7 +23,7 @@ func start() {
 	cmds := commands()
 
 	config := &config{
-		client: fetch.NewClient(5 * time.Second),
+		client: client.New(5 * time.Second),
 	}
 
 	for {
