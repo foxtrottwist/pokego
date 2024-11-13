@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+
+	fetch "github.com/foxtrottwist/pokego/fetch"
 )
 
 type command struct {
@@ -13,17 +15,27 @@ type command struct {
 
 func commands() map[string]command {
 	return map[string]command{
-		"help": {
-			name:        "help",
-			description: "Displays a help message",
-			run:         helpCommand,
-		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
 			run:         exitCommand,
 		},
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			run:         helpCommand,
+		},
+		"map": {
+			name:        "map",
+			description: "Displays the names of 20 location areas",
+			run:         mapCommand,
+		},
 	}
+}
+
+func exitCommand() error {
+	os.Exit(0)
+	return nil
 }
 
 func helpCommand() error {
@@ -37,7 +49,15 @@ func helpCommand() error {
 	return nil
 }
 
-func exitCommand() error {
-	os.Exit(0)
+func mapCommand() error {
+	loc, err := fetch.LocationAreas()
+	if err != nil {
+		return err
+	}
+
+	for _, area := range loc.Results {
+		fmt.Println(area.Name)
+	}
+
 	return nil
 }

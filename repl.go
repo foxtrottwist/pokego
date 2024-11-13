@@ -27,7 +27,7 @@ func start() {
 		if cmd, exist := cmds[cmdName]; exist {
 			err := cmd.run()
 			if err != nil {
-				fmt.Println(err)
+				fmt.Printf("%v\n\n", err)
 			}
 			continue
 		} else {
