@@ -12,6 +12,7 @@ const PROMPT = "Pokédex > "
 func start() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cmds := commands()
+	config := config{}
 
 	for {
 		fmt.Print(PROMPT)
@@ -25,7 +26,7 @@ func start() {
 		cmdName := strings.Fields(line)[0]
 
 		if cmd, exist := cmds[cmdName]; exist {
-			err := cmd.run()
+			err := cmd.run(&config)
 			if err != nil {
 				fmt.Printf("%v\n\n", err)
 			}

@@ -7,10 +7,15 @@ import (
 	fetch "github.com/foxtrottwist/pokego/fetch"
 )
 
+type config struct {
+	Next     string
+	Previous string
+}
+
 type command struct {
 	name        string
 	description string
-	run         func() error
+	run         func(*config) error
 }
 
 func commands() map[string]command {
@@ -33,12 +38,12 @@ func commands() map[string]command {
 	}
 }
 
-func exitCommand() error {
+func exitCommand(*config) error {
 	os.Exit(0)
 	return nil
 }
 
-func helpCommand() error {
+func helpCommand(*config) error {
 	fmt.Printf("\nWelcome to the Pokedex!\nUsage:\n\n")
 
 	for _, cmd := range commands() {
@@ -49,15 +54,19 @@ func helpCommand() error {
 	return nil
 }
 
-func mapCommand() error {
-	loc, err := fetch.LocationAreas()
+func mapCommand(c *config) error {
+	la, err := fetch.LocationAreas(c.Next)
 	if err != nil {
 		return err
 	}
 
-	for _, area := range loc.Results {
+	c.Next = la.Next
+	c.Previous = la.Previous
+
+	for _, area := range la.Results {
 		fmt.Println(area.Name)
 	}
 
+	fmt.Println()
 	return nil
 }

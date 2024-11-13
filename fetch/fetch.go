@@ -11,8 +11,14 @@ const (
 	LOCATION_AREA_URL = BASE_URL + "location-area"
 )
 
-func LocationAreas() (locationAreas, error) {
-	res, err := http.Get(LOCATION_AREA_URL)
+func LocationAreas(url string) (locationAreas, error) {
+	locationAreaUrl := LOCATION_AREA_URL
+
+	if url != "" {
+		locationAreaUrl = url
+	}
+
+	res, err := http.Get(locationAreaUrl)
 	if err != nil {
 		return locationAreas{}, err
 	}
