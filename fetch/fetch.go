@@ -4,20 +4,28 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"time"
 )
 
-const (
-	BASE_URL          = "https://pokeapi.co/api/v2/"
-	LOCATION_AREA_URL = BASE_URL + "location-area"
-)
+type Client struct {
+	httpClient http.Client
+}
 
-func LocationAreas(url string) (locationAreas, error) {
+func NewClient(timeout time.Duration) Client {
+	return Client{
+		httpClient: http.Client{
+			Timeout: timeout,
+		},
+	}
+}
+
+func (c *Client) LocationAreas(url *string) (locationAreas, error) {
 	locationAreaUrl := LOCATION_AREA_URL
-	if url != "" {
-		locationAreaUrl = url
+	if url != nil {
+		locationAreaUrl = *url
 	}
 
-	res, err := http.Get(locationAreaUrl)
+	res, err := c.httpClient.Get(locationAreaUrl)
 	if err != nil {
 		return locationAreas{}, err
 	}

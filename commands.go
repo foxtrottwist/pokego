@@ -1,16 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
-
-	fetch "github.com/foxtrottwist/pokego/fetch"
 )
-
-type config struct {
-	Next     string
-	Previous string
-}
 
 type command struct {
 	name        string
@@ -60,13 +54,13 @@ func helpCommand(*config) error {
 }
 
 func mapCommand(c *config) error {
-	la, err := fetch.LocationAreas(c.Next)
+	la, err := c.client.LocationAreas(c.next)
 	if err != nil {
 		return err
 	}
 
-	c.Next = la.Next
-	c.Previous = la.Previous
+	c.next = la.Next
+	c.previous = la.Previous
 
 	for _, area := range la.Results {
 		fmt.Println(area.Name)
@@ -77,13 +71,17 @@ func mapCommand(c *config) error {
 }
 
 func mapbCommand(c *config) error {
-	la, err := fetch.LocationAreas(c.Previous)
+	if c.previous == nil {
+		return errors.New("cannot go back, you're on the first page")
+	}
+
+	la, err := c.client.LocationAreas(c.previous)
 	if err != nil {
 		return err
 	}
 
-	c.Next = la.Next
-	c.Previous = la.Previous
+	c.next = la.Next
+	c.previous = la.Previous
 
 	for _, area := range la.Results {
 		fmt.Println(area.Name)

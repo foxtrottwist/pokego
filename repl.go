@@ -5,14 +5,26 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/foxtrottwist/pokego/fetch"
 )
 
 const PROMPT = "Pokédex > "
 
+type config struct {
+	next     *string
+	previous *string
+	client   fetch.Client
+}
+
 func start() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cmds := commands()
-	config := config{}
+
+	config := &config{
+		client: fetch.NewClient(5 * time.Second),
+	}
 
 	for {
 		fmt.Print(PROMPT)
@@ -26,7 +38,7 @@ func start() {
 		cmdName := strings.Fields(line)[0]
 
 		if cmd, exist := cmds[cmdName]; exist {
-			err := cmd.run(&config)
+			err := cmd.run(config)
 			if err != nil {
 				fmt.Printf("%v\n\n", err)
 			}
