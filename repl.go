@@ -23,7 +23,7 @@ func start() {
 	cmds := commands()
 
 	config := &config{
-		client: client.New(5 * time.Second),
+		client: client.New(5*time.Second, 5*time.Minute),
 	}
 
 	for {

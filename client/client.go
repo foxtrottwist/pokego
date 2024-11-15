@@ -11,15 +11,15 @@ import (
 
 type Client struct {
 	httpClient http.Client
-	cache.Cache
+	cache      cache.Cache
 }
 
-func New(timeout time.Duration) Client {
+func New(timeout, interval time.Duration) Client {
 	return Client{
 		httpClient: http.Client{
 			Timeout: timeout,
 		},
-		Cache: cache.New(5 * time.Second),
+		cache: cache.New(interval),
 	}
 }
 
@@ -29,7 +29,7 @@ func (c *Client) LocationAreas(url *string) (locationAreas, error) {
 		locationAreaUrl = *url
 	}
 
-	data, ok := c.Cache.Get(locationAreaUrl)
+	data, ok := c.cache.Get(locationAreaUrl)
 
 	if !ok {
 		res, err := c.httpClient.Get(locationAreaUrl)
@@ -44,7 +44,7 @@ func (c *Client) LocationAreas(url *string) (locationAreas, error) {
 		}
 
 		data = body
-		c.Cache.Add(locationAreaUrl, body)
+		c.cache.Add(locationAreaUrl, body)
 	}
 
 	var locations locationAreas

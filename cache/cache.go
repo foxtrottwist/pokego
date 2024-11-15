@@ -33,10 +33,6 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	defer c.mutex.Unlock()
 
 	e, ok := c.entries[key]
-	if !ok {
-		return nil, ok
-	}
-
 	return e.val, ok
 }
 
