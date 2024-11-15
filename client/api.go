@@ -2,7 +2,7 @@ package client
 
 const (
 	BASE_URL          = "https://pokeapi.co/api/v2"
-	LOCATION_AREA_URL = BASE_URL + "/location-area"
+	LOCATION_AREA_URL = BASE_URL + "/location-area?offset=0&limit=20"
 )
 
 type locationAreas struct {
