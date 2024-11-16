@@ -34,11 +34,18 @@ func start() {
 			return
 		}
 
-		line := scanner.Text()
-		cmdName := strings.Fields(line)[0]
+		text := scanner.Text()
+		fields := strings.Fields(strings.ToLower(text))
+
+		if len(fields) == 0 {
+			continue
+		}
+
+		cmdName := fields[0]
+		args := fields[1:]
 
 		if cmd, exist := cmds[cmdName]; exist {
-			err := cmd.run(config)
+			err := cmd.run(config, args...)
 			if err != nil {
 				fmt.Printf("%v\n\n", err)
 			}

@@ -9,7 +9,7 @@ import (
 type command struct {
 	name        string
 	description string
-	run         func(*config) error
+	run         func(*config, ...string) error
 }
 
 func commands() map[string]command {
@@ -18,6 +18,11 @@ func commands() map[string]command {
 			name:        "exit",
 			description: "Exit the Pokedex",
 			run:         exitCommand,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Displays a list of Pokemon found in the location area",
+			run:         exploreCommand,
 		},
 		"help": {
 			name:        "help",
@@ -37,12 +42,27 @@ func commands() map[string]command {
 	}
 }
 
-func exitCommand(*config) error {
+func exitCommand(*config, ...string) error {
 	os.Exit(0)
 	return nil
 }
 
-func helpCommand(*config) error {
+func exploreCommand(c *config, args ...string) error {
+	la, err := c.client.LocationArea(args[0])
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Exploring %s...\n", args[0])
+	for _, p := range la.PokemonEncounters {
+		fmt.Printf("- %s\n", p.Pokemon.Name)
+	}
+
+	fmt.Println()
+	return nil
+}
+
+func helpCommand(*config, ...string) error {
 	fmt.Printf("\nWelcome to the Pokedex!\nUsage:\n\n")
 
 	for _, cmd := range commands() {
@@ -53,7 +73,7 @@ func helpCommand(*config) error {
 	return nil
 }
 
-func mapCommand(c *config) error {
+func mapCommand(c *config, args ...string) error {
 	la, err := c.client.LocationAreas(c.next)
 	if err != nil {
 		return err
@@ -70,7 +90,7 @@ func mapCommand(c *config) error {
 	return nil
 }
 
-func mapbCommand(c *config) error {
+func mapbCommand(c *config, args ...string) error {
 	if c.previous == nil {
 		return errors.New("cannot go back, you're on the first page")
 	}
