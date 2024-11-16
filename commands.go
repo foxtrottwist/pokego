@@ -14,6 +14,11 @@ type command struct {
 
 func commands() map[string]command {
 	return map[string]command{
+		"cache": {
+			name:        "cache",
+			description: "Manipulates the PokéGo cache",
+			run:         cacheCommand,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
@@ -40,6 +45,29 @@ func commands() map[string]command {
 			run:         mapbCommand,
 		},
 	}
+}
+
+const (
+	CLEAN                  = "clean"
+	LS                     = "ls"
+	NO_CACHE_COMMAND_ERROR = "no `cache` command provided\nManipulates the PokéGo cache\n\nUsage: \n\ncache clean: removes all items from the cache\ncache ls: lists all items in the cache"
+)
+
+func cacheCommand(c *config, args ...string) error {
+	if len(args) == 0 {
+		return errors.New(NO_CACHE_COMMAND_ERROR)
+	}
+
+	switch args[0] {
+	case CLEAN:
+		c.client.CleanCache()
+	case LS:
+		c.client.ListCache()
+	default:
+		fmt.Printf("cache %s: unknown command\n", args[0])
+	}
+
+	return nil
 }
 
 func exitCommand(*config, ...string) error {

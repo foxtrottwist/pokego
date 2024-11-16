@@ -23,6 +23,14 @@ func New(timeout, interval time.Duration) Client {
 	}
 }
 
+func (c *Client) CleanCache() {
+	c.cache.Clean()
+}
+
+func (c *Client) ListCache() {
+	c.cache.LS()
+}
+
 func (c *Client) LocationArea(name string) (LocationAreasResp, error) {
 	locationAreaUrl := LOCATION_AREA_URL + "/" + name
 	data, ok := c.cache.Get(locationAreaUrl)
