@@ -23,8 +23,36 @@ func New(timeout, interval time.Duration) Client {
 	}
 }
 
-func (c *Client) LocationAreas(url *string) (locationAreas, error) {
-	locationAreaUrl := LOCATION_AREA_URL
+func (c *Client) LocationArea(path string) (LocationAreasResp, error) {
+	locationAreaUrl := LOCATION_AREA_URL + "/" + path
+	data, ok := c.cache.Get(locationAreaUrl)
+
+	if !ok {
+		res, err := c.httpClient.Get(locationAreaUrl)
+		if err != nil {
+			return LocationAreasResp{}, err
+		}
+		defer res.Body.Close()
+
+		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			return LocationAreasResp{}, err
+		}
+
+		data = body
+		c.cache.Add(locationAreaUrl, data)
+	}
+
+	var location LocationAreasResp
+	if err := json.Unmarshal(data, &location); err != nil {
+		return LocationAreasResp{}, err
+	}
+
+	return location, nil
+}
+
+func (c *Client) LocationAreas(url *string) (LocationAreasTruncResp, error) {
+	locationAreaUrl := LOCATION_AREA_URL + LOCATION_AREA_DEFAULT_PARAMS
 	if url != nil {
 		locationAreaUrl = *url
 	}
@@ -34,22 +62,22 @@ func (c *Client) LocationAreas(url *string) (locationAreas, error) {
 	if !ok {
 		res, err := c.httpClient.Get(locationAreaUrl)
 		if err != nil {
-			return locationAreas{}, err
+			return LocationAreasTruncResp{}, err
 		}
 		defer res.Body.Close()
 
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
-			return locationAreas{}, err
+			return LocationAreasTruncResp{}, err
 		}
 
 		data = body
 		c.cache.Add(locationAreaUrl, body)
 	}
 
-	var locations locationAreas
+	var locations LocationAreasTruncResp
 	if err := json.Unmarshal(data, &locations); err != nil {
-		return locationAreas{}, err
+		return LocationAreasTruncResp{}, err
 	}
 
 	return locations, nil
