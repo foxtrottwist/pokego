@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
+	"runtime"
 )
 
 type command struct {
@@ -19,9 +21,14 @@ func commands() map[string]command {
 			description: "Manipulates the PokéGo cache",
 			run:         cacheCommand,
 		},
+		"clear": {
+			name:        "clear",
+			description: "Clears the PokéGo output",
+			run:         clearCommand,
+		},
 		"exit": {
 			name:        "exit",
-			description: "Exit the Pokedex",
+			description: "Exits PokéGo",
 			run:         exitCommand,
 		},
 		"explore": {
@@ -67,6 +74,21 @@ func cacheCommand(c *config, args ...string) error {
 		fmt.Printf("cache %s: unknown command\n", args[0])
 	}
 
+	return nil
+}
+
+func clearCommand(*config, ...string) error {
+	if runtime.GOOS == "windows" {
+		return clearHelper(exec.Command("cmd", "/c", "cls"))
+	}
+	return clearHelper(exec.Command("clear"))
+}
+
+func clearHelper(cmd *exec.Cmd) error {
+	cmd.Stdout = os.Stdout
+	if err := cmd.Run(); err != nil {
+		return err
+	}
 	return nil
 }
 
