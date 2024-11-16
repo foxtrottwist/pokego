@@ -23,8 +23,8 @@ func New(timeout, interval time.Duration) Client {
 	}
 }
 
-func (c *Client) LocationArea(path string) (LocationAreasResp, error) {
-	locationAreaUrl := LOCATION_AREA_URL + "/" + path
+func (c *Client) LocationArea(name string) (LocationAreasResp, error) {
+	locationAreaUrl := LOCATION_AREA_URL + "/" + name
 	data, ok := c.cache.Get(locationAreaUrl)
 
 	if !ok {

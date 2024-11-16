@@ -48,12 +48,17 @@ func exitCommand(*config, ...string) error {
 }
 
 func exploreCommand(c *config, args ...string) error {
+	if len(args) == 0 {
+		return errors.New("a location area name must be provided")
+	}
+
 	la, err := c.client.LocationArea(args[0])
 	if err != nil {
 		return err
 	}
 
 	fmt.Printf("Exploring %s...\n", args[0])
+	fmt.Println("Found Pokemon: ")
 	for _, p := range la.PokemonEncounters {
 		fmt.Printf("- %s\n", p.Pokemon.Name)
 	}
