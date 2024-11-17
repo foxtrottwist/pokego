@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/foxtrottwist/pokego/client"
 	"github.com/foxtrottwist/pokego/commands"
 )
 
@@ -17,9 +16,7 @@ func start() {
 	scanner := bufio.NewScanner(os.Stdin)
 	cmds := commands.Commands()
 
-	config := &commands.Config{
-		Client: client.New(5*time.Second, 5*time.Minute),
-	}
+	config := commands.NewConfig(5*time.Second, 5*time.Minute)
 
 	for {
 		fmt.Print(PROMPT)
