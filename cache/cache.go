@@ -32,6 +32,7 @@ func (c *Cache) Add(key string, val []byte) {
 func (c *Cache) Clean() {
 	if len(c.entries) == 0 {
 		fmt.Println("cache is empty")
+		fmt.Println()
 		return
 	}
 
@@ -54,6 +55,7 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 func (c *Cache) LS() {
 	if len(c.entries) == 0 {
 		fmt.Println("cache is empty")
+		fmt.Println()
 		return
 	}
 

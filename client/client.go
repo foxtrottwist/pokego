@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"time"
@@ -42,6 +43,10 @@ func (c *Client) LocationArea(name string) (LocationAreasResp, error) {
 		}
 		defer res.Body.Close()
 
+		if res.StatusCode != http.StatusOK {
+			return LocationAreasResp{}, errors.New("unable to explore area, check area name")
+		}
+
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
 			return LocationAreasResp{}, err
@@ -73,6 +78,10 @@ func (c *Client) LocationAreas(url *string) (LocationAreasTruncResp, error) {
 			return LocationAreasTruncResp{}, err
 		}
 		defer res.Body.Close()
+
+		if res.StatusCode != http.StatusOK {
+			return LocationAreasTruncResp{}, errors.New("unable to display location areas")
+		}
 
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
