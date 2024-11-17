@@ -8,22 +8,17 @@ import (
 	"time"
 
 	"github.com/foxtrottwist/pokego/client"
+	"github.com/foxtrottwist/pokego/commands"
 )
 
 const PROMPT = "Pokédex > "
 
-type config struct {
-	next     *string
-	previous *string
-	client   client.Client
-}
-
 func start() {
 	scanner := bufio.NewScanner(os.Stdin)
-	cmds := commands()
+	cmds := commands.Commands()
 
-	config := &config{
-		client: client.New(5*time.Second, 5*time.Minute),
+	config := &commands.Config{
+		Client: client.New(5*time.Second, 5*time.Minute),
 	}
 
 	for {
@@ -45,7 +40,7 @@ func start() {
 		args := fields[1:]
 
 		if cmd, exist := cmds[cmdName]; exist {
-			err := cmd.run(config, args...)
+			err := cmd.Run(config, args...)
 			if err != nil {
 				fmt.Printf("%v\n\n", err)
 			}
