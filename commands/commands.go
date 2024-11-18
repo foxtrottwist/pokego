@@ -18,10 +18,11 @@ func Commands() map[string]command {
 			description: "Clears the PokéGo output",
 			Run:         clearCommand,
 		},
+		// 'exit' command is handled in the repl execution loop to allow for defer term.Cleanup to run.
 		"exit": {
 			name:        "exit",
 			description: "Exits PokéGo",
-			Run:         exitCommand,
+			Run:         func(c *config, s ...string) error { return nil },
 		},
 		"explore": {
 			name:        "explore",
