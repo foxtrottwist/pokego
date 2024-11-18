@@ -19,11 +19,16 @@ func cacheCommand(c *config, args ...string) error {
 
 	switch args[0] {
 	case clean:
-		c.Client.CleanCache()
+		c.write(fmt.Sprintf("%s\n", c.client.CleanCache()))
+		c.write("\n")
 	case ls:
-		c.Client.ListCache()
+		for _, item := range c.client.ListCache() {
+			c.write(fmt.Sprintf("%s\n", item))
+		}
+		c.write("\n")
 	default:
-		fmt.Printf("cache %s: unknown command\n", args[0])
+		c.write(fmt.Sprintf("cache %s: unknown command\n", args[0]))
+		c.write("\n")
 	}
 
 	return nil

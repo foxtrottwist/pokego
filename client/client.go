@@ -24,12 +24,12 @@ func New(timeout, interval time.Duration) Client {
 	}
 }
 
-func (c *Client) CleanCache() {
-	c.cache.Clean()
+func (c *Client) CleanCache() string {
+	return c.cache.Clean()
 }
 
-func (c *Client) ListCache() {
-	c.cache.LS()
+func (c *Client) ListCache() []string {
+	return c.cache.LS()
 }
 
 func (c *Client) LocationArea(name string) (LocationAreasResp, error) {

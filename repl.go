@@ -17,7 +17,7 @@ func start() {
 	defer term.Cleanup()
 
 	cmds := commands.Commands()
-	config := commands.NewConfig(5*time.Second, 5*time.Minute)
+	config := commands.NewConfig(term.Write, 5*time.Second, 5*time.Minute)
 
 	for {
 		line, err := term.ReadLine()

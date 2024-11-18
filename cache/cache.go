@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -29,11 +28,11 @@ func (c *Cache) Add(key string, val []byte) {
 	c.entries[key] = cacheEntry{createdAt: time.Now(), val: val}
 }
 
-func (c *Cache) Clean() {
+const empty = "cache is empty"
+
+func (c *Cache) Clean() string {
 	if len(c.entries) == 0 {
-		fmt.Println("cache is empty")
-		fmt.Println()
-		return
+		return empty
 	}
 
 	c.mutex.Lock()
@@ -42,6 +41,8 @@ func (c *Cache) Clean() {
 	for key := range c.entries {
 		delete(c.entries, key)
 	}
+
+	return empty
 }
 
 func (c *Cache) Get(key string) ([]byte, bool) {
@@ -52,19 +53,20 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	return e.val, ok
 }
 
-func (c *Cache) LS() {
+func (c *Cache) LS() []string {
 	if len(c.entries) == 0 {
-		fmt.Println("cache is empty")
-		fmt.Println()
-		return
+		return []string{empty}
 	}
 
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
+	keys := []string{}
 	for key := range c.entries {
-		fmt.Printf("- %s\n", key)
+		keys = append(keys, key)
 	}
+
+	return keys
 }
 
 func (c *Cache) reapLoop(interval time.Duration) {

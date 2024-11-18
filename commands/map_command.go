@@ -6,7 +6,7 @@ import (
 )
 
 func mapCommand(c *config, args ...string) error {
-	la, err := c.Client.LocationAreas(c.next)
+	la, err := c.client.LocationAreas(c.next)
 	if err != nil {
 		return err
 	}
@@ -15,10 +15,10 @@ func mapCommand(c *config, args ...string) error {
 	c.previous = la.Previous
 
 	for _, area := range la.Results {
-		fmt.Println(area.Name)
+		c.write(fmt.Sprintf("%s\n", area.Name))
 	}
 
-	fmt.Println()
+	c.write("\n")
 	return nil
 }
 
@@ -27,7 +27,7 @@ func mapbCommand(c *config, args ...string) error {
 		return errors.New("cannot go back, you're on the first page")
 	}
 
-	la, err := c.Client.LocationAreas(c.previous)
+	la, err := c.client.LocationAreas(c.previous)
 	if err != nil {
 		return err
 	}
@@ -36,9 +36,9 @@ func mapbCommand(c *config, args ...string) error {
 	c.previous = la.Previous
 
 	for _, area := range la.Results {
-		fmt.Println(area.Name)
+		c.write(fmt.Sprintf("%s\n", area.Name))
 	}
 
-	fmt.Println()
+	c.write("\n")
 	return nil
 }

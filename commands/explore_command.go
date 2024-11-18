@@ -10,17 +10,17 @@ func exploreCommand(c *config, args ...string) error {
 		return errors.New("a location area name must be provided")
 	}
 
-	la, err := c.Client.LocationArea(args[0])
+	la, err := c.client.LocationArea(args[0])
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("Exploring %s...\n", args[0])
-	fmt.Println("Found Pokemon: ")
+	c.write(fmt.Sprintf("Exploring %s...\n", args[0]))
+	c.write("Found Pokemon: \n")
 	for _, p := range la.PokemonEncounters {
-		fmt.Printf("- %s\n", p.Pokemon.Name)
+		c.write(fmt.Sprintf("- %s\n", p.Pokemon.Name))
 	}
 
-	fmt.Println()
+	c.write("\n")
 	return nil
 }

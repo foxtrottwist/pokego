@@ -2,13 +2,13 @@ package commands
 
 import "fmt"
 
-func helpCommand(*config, ...string) error {
-	fmt.Printf("\nWelcome to the PokéGo Pokédex!\nUsage:\n\n")
+func helpCommand(c *config, args ...string) error {
+	c.write("\nWelcome to the PokéGo Pokédex!\nUsage:\n\n")
 
 	for _, cmd := range Commands() {
-		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
+		c.write(fmt.Sprintf("%s: %s\n", cmd.name, cmd.description))
 	}
 
-	fmt.Println()
+	c.write("\n")
 	return nil
 }
