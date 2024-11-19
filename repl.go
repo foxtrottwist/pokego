@@ -17,7 +17,7 @@ func start() {
 	defer term.Cleanup()
 
 	cmds := commands.Commands()
-	config := commands.NewConfig(term.Write, 5*time.Second, 5*time.Minute)
+	config := commands.NewConfig(term.Print, 5*time.Second, 5*time.Minute)
 
 	for {
 		line, err := term.ReadLine()
@@ -39,12 +39,12 @@ func start() {
 			args := fields[1:]
 			err := cmd.Run(config, args...)
 			if err != nil {
-				term.Write(fmt.Sprintf("%v\n\n", err))
+				term.Print(fmt.Sprintf("%v\n\n", err))
 			}
 			continue
 		} else {
-			term.Write(fmt.Sprintf("%s: unknown command\n", cmdName))
-			term.Write("use `help' for usage.\n\n")
+			term.Print(fmt.Sprintf("%s: unknown command\n", cmdName))
+			term.Print("use `help' for usage.\n\n")
 		}
 	}
 }

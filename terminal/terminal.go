@@ -41,7 +41,7 @@ func (t *Terminal) ReadLine() (string, error) {
 	return line, err
 }
 
-func (t *Terminal) Write(s string) error {
+func (t *Terminal) Print(s string) error {
 	_, err := t.term.Write([]byte(s))
 	return err
 }

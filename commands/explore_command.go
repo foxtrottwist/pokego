@@ -15,12 +15,12 @@ func exploreCommand(c *config, args ...string) error {
 		return err
 	}
 
-	c.write(fmt.Sprintf("Exploring %s...\n", args[0]))
-	c.write("Found Pokemon: \n")
+	c.print(fmt.Sprintf("Exploring %s...\n", args[0]))
+	c.print("Found Pokemon: \n")
 	for _, p := range la.PokemonEncounters {
-		c.write(fmt.Sprintf("- %s\n", p.Pokemon.Name))
+		c.print(fmt.Sprintf("- %s\n", p.Pokemon.Name))
 	}
 
-	c.write("\n")
+	c.print("\n")
 	return nil
 }

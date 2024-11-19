@@ -6,18 +6,18 @@ import (
 	"github.com/foxtrottwist/pokego/client"
 )
 
-type Writer = func(string) error
+type printer = func(string) error
 
 type config struct {
 	client   client.Client
 	next     *string
 	previous *string
-	write    Writer
+	print    printer
 }
 
-func NewConfig(writer Writer, timeout, interval time.Duration) *config {
+func NewConfig(p printer, timeout, interval time.Duration) *config {
 	return &config{
 		client: client.New(timeout, interval),
-		write:  writer,
+		print:  p,
 	}
 }

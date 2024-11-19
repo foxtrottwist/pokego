@@ -15,10 +15,10 @@ func mapCommand(c *config, args ...string) error {
 	c.previous = la.Previous
 
 	for _, area := range la.Results {
-		c.write(fmt.Sprintf("%s\n", area.Name))
+		c.print(fmt.Sprintf("%s\n", area.Name))
 	}
 
-	c.write("\n")
+	c.print("\n")
 	return nil
 }
 
@@ -36,9 +36,9 @@ func mapbCommand(c *config, args ...string) error {
 	c.previous = la.Previous
 
 	for _, area := range la.Results {
-		c.write(fmt.Sprintf("%s\n", area.Name))
+		c.print(fmt.Sprintf("%s\n", area.Name))
 	}
 
-	c.write("\n")
+	c.print("\n")
 	return nil
 }
