@@ -65,7 +65,7 @@ func (c *Client) LocationArea(name string) (LocationAreasResp, error) {
 }
 
 func (c *Client) LocationAreas(url *string) (LocationAreasTruncResp, error) {
-	locationAreaUrl := LOCATION_AREA_URL + LOCATION_AREA_DEFAULT_PARAMS
+	locationAreaUrl := LOCATION_AREA_URL + TRUNC_RESP_DEFAULT_PARAMS
 	if url != nil {
 		locationAreaUrl = *url
 	}
