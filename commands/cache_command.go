@@ -11,10 +11,10 @@ const (
 )
 
 func cacheCommand(c *config, args ...string) error {
+	descriptor := fmt.Sprintf("Manipulates the PokéGo cache\n\nUsage: \n\ncache %s: removes all items from the cache\ncache %s: lists all items in the cache", clean, ls)
+
 	if len(args) == 0 {
-		return errors.New(
-			fmt.Sprintf("no `cache` command provided\nManipulates the PokéGo cache\n\nUsage: \n\ncache %s: removes all items from the cache\ncache %s: lists all items in the cache", clean, ls),
-		)
+		return errors.New(fmt.Sprint("no `cache` command provided\n\n", descriptor))
 	}
 
 	switch args[0] {
@@ -27,6 +27,7 @@ func cacheCommand(c *config, args ...string) error {
 		c.print("\n")
 	default:
 		c.print(fmt.Sprintf("cache %s: unknown command\n\n", args[0]))
+		c.print(fmt.Sprintf("%s\n\n", descriptor))
 	}
 
 	return nil
