@@ -39,6 +39,11 @@ func Commands() map[string]command {
 			description: "Displays a help message",
 			Run:         helpCommand,
 		},
+		"inspect": {
+			name:        "inspect",
+			description: "Displays the attributes of a Pokémon in your Pokédex",
+			Run:         inspectCommand,
+		},
 		"map": {
 			name:        "map",
 			description: "Displays the names of the next 20 location areas",
