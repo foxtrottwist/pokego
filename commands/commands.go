@@ -54,5 +54,10 @@ func Commands() map[string]command {
 			description: "Displays the names of the previous 20 location areas",
 			Run:         mapbCommand,
 		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "Displays the names of Pokémon in your Pokédex",
+			Run:         pokedexCommand,
+		},
 	}
 }
