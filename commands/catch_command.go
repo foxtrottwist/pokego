@@ -11,6 +11,9 @@ func catchCommand(c *config, args ...string) error {
 	if len(args) == 0 {
 		return errors.New("a Pokémon name must be provided")
 	}
+	if _, ok := c.pokedex[args[0]]; ok {
+		return errors.New(fmt.Sprintf("%s already caught", args[0]))
+	}
 
 	pokemon, err := c.client.GetPokemon(args[0])
 	if err != nil {
