@@ -9,12 +9,12 @@ type command struct {
 func Commands() map[string]command {
 	return map[string]command{
 		"cache": {
-			name:        "cache",
-			description: "Manipulates the PokéGo cache",
+			name:        "cache <command>",
+			description: cacheCmdDesciption,
 			Run:         cacheCommand,
 		},
 		"catch": {
-			name:        "catch",
+			name:        "catch <pokemon>",
 			description: "Attempts to catch a Pokémon",
 			Run:         catchCommand,
 		},
@@ -30,7 +30,7 @@ func Commands() map[string]command {
 			Run:         func(c *config, s ...string) error { return nil },
 		},
 		"explore": {
-			name:        "explore",
+			name:        "explore <location-area>",
 			description: "Displays a list of Pokémon found in a location area",
 			Run:         exploreCommand,
 		},
@@ -40,7 +40,7 @@ func Commands() map[string]command {
 			Run:         helpCommand,
 		},
 		"inspect": {
-			name:        "inspect",
+			name:        "inspect <pokemon>",
 			description: "Displays the attributes of a Pokémon in your Pokédex",
 			Run:         inspectCommand,
 		},

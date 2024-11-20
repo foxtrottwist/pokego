@@ -6,15 +6,22 @@ import (
 )
 
 const (
-	clean = "clean"
-	ls    = "ls"
+	clean              = "clean"
+	ls                 = "ls"
+	cacheCmdDesciption = "Manipulates the PokéGo cache"
 )
 
 func cacheCommand(c *config, args ...string) error {
-	descriptor := fmt.Sprintf("Manipulates the PokéGo cache\n\nUsage: \n\ncache %s: removes all items from the cache\ncache %s: lists all items in the cache", clean, ls)
+	descriptor := fmt.Sprintf(`
+%s
+Usage:
+
+cache %s:  removes all items from the cache
+cache %s:     lists all items in the cache,
+	`, cacheCmdDesciption, clean, ls)
 
 	if len(args) == 0 {
-		return errors.New(fmt.Sprint("no `cache` command provided\n\n", descriptor))
+		return errors.New(fmt.Sprint("no `cache` command provided\n", descriptor))
 	}
 
 	switch args[0] {
