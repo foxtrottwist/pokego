@@ -6,7 +6,7 @@ import (
 )
 
 func mapCommand(c *config, args ...string) error {
-	la, err := c.client.LocationAreas(c.next)
+	la, err := c.client.GetLocationAreas(c.next)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func mapbCommand(c *config, args ...string) error {
 		return errors.New("cannot go back, you're on the first page")
 	}
 
-	la, err := c.client.LocationAreas(c.previous)
+	la, err := c.client.GetLocationAreas(c.previous)
 	if err != nil {
 		return err
 	}

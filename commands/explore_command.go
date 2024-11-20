@@ -10,7 +10,7 @@ func exploreCommand(c *config, args ...string) error {
 		return errors.New("a location area name must be provided")
 	}
 
-	la, err := c.client.LocationArea(args[0])
+	la, err := c.client.GetLocationArea(args[0])
 	if err != nil {
 		return err
 	}

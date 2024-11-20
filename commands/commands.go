@@ -13,6 +13,11 @@ func Commands() map[string]command {
 			description: "Manipulates the PokéGo cache",
 			Run:         cacheCommand,
 		},
+		"catch": {
+			name:        "catch",
+			description: "Attempts to catch a Pokémon",
+			Run:         catchCommand,
+		},
 		"clear": {
 			name:        "clear",
 			description: "Clears the PokéGo output",

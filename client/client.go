@@ -11,13 +11,13 @@ import (
 )
 
 type Client struct {
-	httpClient http.Client
-	cache      cache.Cache
+	client http.Client
+	cache  cache.Cache
 }
 
 func New(timeout, interval time.Duration) Client {
 	return Client{
-		httpClient: http.Client{
+		client: http.Client{
 			Timeout: timeout,
 		},
 		cache: cache.New(interval),
@@ -32,70 +32,102 @@ func (c *Client) ListCache() []string {
 	return c.cache.LS()
 }
 
-func (c *Client) LocationArea(name string) (LocationAreasResp, error) {
-	locationAreaUrl := LOCATION_AREA_URL + "/" + name
-	data, ok := c.cache.Get(locationAreaUrl)
+func (c *Client) GetLocationArea(name string) (LocationArea, error) {
+	url := LOCATION_AREA_URL + "/" + name
+	data, ok := c.cache.Get(url)
 
 	if !ok {
-		res, err := c.httpClient.Get(locationAreaUrl)
+		res, err := c.client.Get(url)
 		if err != nil {
-			return LocationAreasResp{}, err
+			return LocationArea{}, err
 		}
 		defer res.Body.Close()
 
 		if res.StatusCode != http.StatusOK {
-			return LocationAreasResp{}, errors.New("unable to explore area, check area name")
+			return LocationArea{}, errors.New("unable to explore area, check area name")
 		}
 
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
-			return LocationAreasResp{}, err
+			return LocationArea{}, err
 		}
 
 		data = body
-		c.cache.Add(locationAreaUrl, data)
+		c.cache.Add(url, data)
 	}
 
-	var location LocationAreasResp
+	var location LocationArea
 	if err := json.Unmarshal(data, &location); err != nil {
-		return LocationAreasResp{}, err
+		return LocationArea{}, err
 	}
 
 	return location, nil
 }
 
-func (c *Client) LocationAreas(url *string) (LocationAreasTruncResp, error) {
-	locationAreaUrl := LOCATION_AREA_URL + TRUNC_RESP_DEFAULT_PARAMS
-	if url != nil {
-		locationAreaUrl = *url
+func (c *Client) GetLocationAreas(pageUrl *string) (LocationAreaTrunc, error) {
+	url := LOCATION_AREA_URL
+	if pageUrl != nil {
+		url = *pageUrl
 	}
 
-	data, ok := c.cache.Get(locationAreaUrl)
+	data, ok := c.cache.Get(url)
 
 	if !ok {
-		res, err := c.httpClient.Get(locationAreaUrl)
+		res, err := c.client.Get(url)
 		if err != nil {
-			return LocationAreasTruncResp{}, err
+			return LocationAreaTrunc{}, err
 		}
 		defer res.Body.Close()
 
 		if res.StatusCode != http.StatusOK {
-			return LocationAreasTruncResp{}, errors.New("unable to display location areas")
+			return LocationAreaTrunc{}, errors.New("unable to display location areas")
 		}
 
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
-			return LocationAreasTruncResp{}, err
+			return LocationAreaTrunc{}, err
 		}
 
 		data = body
-		c.cache.Add(locationAreaUrl, body)
+		c.cache.Add(url, body)
 	}
 
-	var locations LocationAreasTruncResp
+	var locations LocationAreaTrunc
 	if err := json.Unmarshal(data, &locations); err != nil {
-		return LocationAreasTruncResp{}, err
+		return LocationAreaTrunc{}, err
 	}
 
 	return locations, nil
+}
+
+func (c *Client) GetPokemon(name string) (Pokemon, error) {
+	url := POKEMON_URL + "/" + name
+	data, ok := c.cache.Get(url)
+
+	if !ok {
+		res, err := c.client.Get(url)
+		if err != nil {
+			return Pokemon{}, err
+		}
+		defer res.Body.Close()
+
+		if res.StatusCode != http.StatusOK {
+			return Pokemon{}, errors.New("unable to catch Pokemon, check Pokemon name")
+		}
+
+		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			return Pokemon{}, err
+		}
+
+		data = body
+		c.cache.Add(url, data)
+	}
+
+	var pokemon Pokemon
+	if err := json.Unmarshal(data, &pokemon); err != nil {
+		return Pokemon{}, err
+	}
+
+	return pokemon, nil
 }

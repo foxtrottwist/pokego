@@ -1,14 +1,12 @@
 package client
 
 const (
-	LOCATION_AREA_BASE_URL    = "https://pokeapi.co/api/v2"
-	LOCATION_AREA_URL         = LOCATION_AREA_BASE_URL + "/location-area"
-	POKEMON_BASE_URL          = "https://pokeapi.co/api/v2"
-	POKEMON_URL               = POKEMON_BASE_URL + "/pokemon"
-	TRUNC_RESP_DEFAULT_PARAMS = "?offset=0&limit=20"
+	BASE_URL          = "https://pokeapi.co/api/v2"
+	LOCATION_AREA_URL = BASE_URL + "/location-area"
+	POKEMON_URL       = BASE_URL + "/pokemon"
 )
 
-type LocationAreasTruncResp struct {
+type LocationAreaTrunc struct {
 	Count    int     `json:"count"`
 	Next     *string `json:"next"`
 	Previous *string `json:"previous"`
@@ -18,7 +16,7 @@ type LocationAreasTruncResp struct {
 	} `json:"results"`
 }
 
-type LocationAreasResp struct {
+type LocationArea struct {
 	ID                   int    `json:"id"`
 	Name                 string `json:"name"`
 	GameIndex            int    `json:"game_index"`
@@ -71,7 +69,7 @@ type LocationAreasResp struct {
 	} `json:"pokemon_encounters"`
 }
 
-type PokemonTruncResp struct {
+type PokemonTrunc struct {
 	Count    int     `json:"count"`
 	Next     *string `json:"next"`
 	Previous *string `json:"previous"`
@@ -81,7 +79,7 @@ type PokemonTruncResp struct {
 	} `json:"results"`
 }
 
-type PokemonResp struct {
+type Pokemon struct {
 	ID             int    `json:"id"`
 	Name           string `json:"name"`
 	BaseExperience int    `json:"base_experience"`

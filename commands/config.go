@@ -10,6 +10,7 @@ type printer = func(string) error
 
 type config struct {
 	client   client.Client
+	pokedex  map[string]client.Pokemon
 	next     *string
 	previous *string
 	print    printer
@@ -17,7 +18,8 @@ type config struct {
 
 func NewConfig(p printer, timeout, interval time.Duration) *config {
 	return &config{
-		client: client.New(timeout, interval),
-		print:  p,
+		client:  client.New(timeout, interval),
+		pokedex: map[string]client.Pokemon{},
+		print:   p,
 	}
 }
