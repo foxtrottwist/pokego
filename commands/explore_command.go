@@ -16,7 +16,7 @@ func exploreCommand(c *config, args ...string) error {
 	}
 
 	c.print(fmt.Sprintf("Exploring %s...\n", args[0]))
-	c.print("Found Pokemon: \n")
+	c.print("Found Pokémon: \n")
 	for _, p := range la.PokemonEncounters {
 		c.print(fmt.Sprintf("- %s\n", p.Pokemon.Name))
 	}

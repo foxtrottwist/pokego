@@ -9,7 +9,7 @@ import (
 
 func catchCommand(c *config, args ...string) error {
 	if len(args) == 0 {
-		return errors.New("a pokemon name must be provided")
+		return errors.New("a Pokémon name must be provided")
 	}
 
 	pokemon, err := c.client.GetPokemon(args[0])
@@ -17,7 +17,7 @@ func catchCommand(c *config, args ...string) error {
 		return err
 	}
 
-	c.print(fmt.Sprintf("Throwing a Pokeball at %s...\n", pokemon.Name))
+	c.print(fmt.Sprintf("Throwing a Pokéball at %s...\n", pokemon.Name))
 	if tryCatch(pokemon.BaseExperience) {
 		c.pokedex[pokemon.Name] = pokemon
 		c.print(fmt.Sprintf("%s was caught!\n\n", pokemon.Name))
