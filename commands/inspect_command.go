@@ -21,12 +21,12 @@ func inspectCommand(c *config, args ...string) error {
 
 	c.print("Stats: \n")
 	for _, info := range p.Stats {
-		c.print(fmt.Sprintf("- %s: "+"%d\n", info.Stat.Name, info.BaseStat))
+		c.print(fmt.Sprintf(" - %s: "+"%d\n", info.Stat.Name, info.BaseStat))
 	}
 
 	c.print("Types: \n")
 	for _, info := range p.Types {
-		c.print(fmt.Sprintf("- %s\n", info.Type.Name))
+		c.print(fmt.Sprintf(" - %s\n", info.Type.Name))
 	}
 
 	c.print("\n")

@@ -10,7 +10,7 @@ import (
 	"github.com/foxtrottwist/pokego/terminal"
 )
 
-const PROMPT = "Pokédex > "
+const PROMPT = "PokéGo > "
 
 func start() {
 	term := terminal.New(PROMPT)

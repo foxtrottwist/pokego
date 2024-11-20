@@ -12,5 +12,6 @@ func pokedexCommand(c *config, _ ...string) error {
 	for name := range c.pokedex {
 		c.print(fmt.Sprintf(" - %s\n", name))
 	}
+	c.print("\n")
 	return nil
 }
