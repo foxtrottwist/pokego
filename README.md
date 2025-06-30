@@ -8,10 +8,6 @@ Built while learning Go's concurrency patterns and CLI development. This project
 
 ## Tech Stack
 
-<img src="https://raw.githubusercontent.com/foxtrottwist/foxtrottwist/main/assets/brider-codes.png" alt="Bridge Builder Fox mascot coding" width="600" height="400" align="right">
-
-*Bridger is here to help make Pokemon exploration more accessible and user-friendly.*
-
 **Framework & Core:**
 - Go 1.23.3 - Latest Go features with improved terminal handling
 - PokéAPI REST endpoints - Comprehensive Pokemon data source
